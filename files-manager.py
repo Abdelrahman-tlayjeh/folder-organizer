@@ -1,6 +1,6 @@
 """
 Functions to automate basic working with files tasks
-You can directely run and use the script as a CLI app 
+You can directly run and use the script as a CLI app 
 
 by Abdelrahman Tlayjeh @ https://github.com/Abdelrahman-tlayjeh
 """
