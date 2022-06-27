@@ -31,7 +31,7 @@ To get an idea of the content of folder, run the following command:
 example of output using 'python folder_organizer_CLI.py show-stats' command:
 ```
 
-![img4readme](/img4readme/show_stats.png)
+![imgs](/imgs/show_stats.png)
 
 
 ### <u>Organize by Extensions</u>
@@ -40,7 +40,7 @@ To organize folder content by extensions, use the following command:
 ```console
 example of output using 'python folder_organizer_CLI.py organize ext "Organized Folder"' command:
 ```
-![img4readme](/img4readme/org_ext.png)
+![imgs](/imgs/org_ext.png)
 
 #### <u>Example of how it works:</u>
 Folder structure before:
