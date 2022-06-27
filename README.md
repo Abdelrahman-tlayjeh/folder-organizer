@@ -5,7 +5,7 @@
 ### <u>Features:</u>
 - show brief statistics on folder content
 - Organize the folder content in 2 different way:
-    - By extension: set all files with same extension in on folder.
+    - By extension: set all files with same extension in one folder.
     - By categories: set group of extensions in one folder. <i>(check categories.json)</i>
 <hr>
 
