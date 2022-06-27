@@ -17,8 +17,8 @@
     },
     "programming": {
         "scripts": ["py", "js", "cpp", "c", "php", "html", "css"],
-        "db": ["sql", "mysql"],
+        "db": ["sqlite", "db"],
         "readme": ["md"]
     },
-    "zip": ["zip"]
+    "zip": ["zip", "rar"]
 }

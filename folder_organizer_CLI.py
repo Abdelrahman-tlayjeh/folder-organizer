@@ -1,19 +1,18 @@
 from folder_organizer import FolderOrganizer
-import typer
+from typer import Typer
 from rich.console import Console
 from rich.table import Table
 
-app = typer.Typer()
+app = Typer()
 console = Console()
 organizer = FolderOrganizer()
 
 #========== Commands ==========#
 COMMANDS = {
-    "show-stats": "Show you a table that contains statistics of the folder content",
+    "show-stats": "Display a table that contains general stats of folder content",
     "organize ext (folder name)": "Organize the folder by extensions and set new organized content in a folder with (folder name) name",
     "organize cat (folder name)": "Organize the folder by categories (you can edit categories from categories.json file) and set new organized content in a folder with (folder name) name"
 }
-
 
 
 #========== Helpers ==========#
@@ -22,7 +21,7 @@ def generate_rich_syntax(color:str, content:str, other:list=[]) -> str:
 
 
 #========== App commands ==========#
-@app.command()
+@app.command(short_help="Show all available commands")
 def show_commands():
     table = Table(show_header=True, show_lines=True)
     table.add_column(generate_rich_syntax("white", "command", ["bold", "underline"]), justify="left")
@@ -58,7 +57,7 @@ def show_stats():
     console.print(table)
 
 
-@app.command(short_help="Organize folder content by extensions")
+@app.command(short_help="Organize folder content by extensions or categories")
 def organize(by:str, output_folder_name:str):
     if by == "ext":
         res = organizer.organize_by_extensions(output_folder_name)
