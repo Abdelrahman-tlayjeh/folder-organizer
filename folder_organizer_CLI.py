@@ -77,7 +77,7 @@ def organize(by:str, output_folder_name:str):
         console.print(generate_rich_syntax("red", f"{len(res[1])} Errors occurs!"))
         #create table for errors
         table = Table(show_header=True, show_lines=True)
-        table.add_column(generate_rich_syntax("red", "Item Path", ["bold"]), justify="left", no_wrap=False)
+        table.add_column(generate_rich_syntax("red", "Item name", ["bold"]), justify="left", no_wrap=False)
         table.add_column(generate_rich_syntax("red", "Error message", ["bold"]), justify="left", no_wrap=False)
         for k, v in res[1]:
             table.add_row(generate_rich_syntax("red", k), generate_rich_syntax("red", str(v)))
