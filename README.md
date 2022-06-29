@@ -3,48 +3,56 @@
 <hr>
 
 ### <u>Features:</u>
-- show brief statistics on folder content
+- Show the counts of the different content types in the folder. 
 - Organize the folder content in 2 different way:
     - By extensions: set all files with same extension in one folder.
-    - By categories: set group of extensions in one folder. <i>(check categories.json)</i>
+    - By categories: set all files with same categort in one folder. <i>(check categories.json)</i>
 <hr>
 
 ### <u>Get started:</u>
 - install requirements:
-    > pip3 install -r requirements.txt
-- set the scripts in the folder that you want to organize <i>(in the same level of content)</i>
-- open the treminal, you can check all commands using one of the following:
-    > folder_organizer_CLI.py --help
+```console
+pip3 install -r requirements.txt
+```
+- set the scripts and the JSON file in the folder that you want to organize <i>(in the same level of content)</i>
+- open the terminal, you can check all commands using one of the following:
+```console
+folder_organizer_CLI.py --help
+```
+or
+```console
+folder_organizer_CLI.py show-commands
+```
     
-    or
-
-    > folder_organizer_CLI.py show-commands
 
 <hr>
 
-### <u>Show Folder content stats:</u>
-To get an idea of the content of folder, run the following command:
-
-> folder_organizer_CLI.py show-stats
+## <u>Show Folder content stats:</u>
+To get an idea about the count of different content types in the  folder, run the following command:
 
 ```console
-example of output using 'python folder_organizer_CLI.py show-stats' command:
+python folder_organizer_CLI.py show-stats
 ```
+> use 'python3' on linux or mac 
+
+### Example of output:
 
 ![imgs](/imgs/show_stats.png)
 
 
-### <u>Organize by Extensions</u>
+## <u>Organize by Extensions</u>
 To organize folder content by extensions, use the following command:
-> folder_organizer_CLI.py organize ext [output folder name]
 ```console
-example of output using 'python folder_organizer_CLI.py organize ext "Organized Folder"' command:
+python folder_organizer_CLI.py organize ext '{output folder name}'
 ```
+> replace {output folder name} by a valid folder name to be the folder that will contain all organized content.
+
+### Example of output:
 ![imgs](/imgs/org_ext.png)
 
-#### <u>Example of how it works:</u>
-Folder structure before:
-```console
+### <u>Example of how it works:</u>
+Folder tree before:
+```
 working directory/                      
 ├─ note.txt
 ├─ 1m_monkey_image.png                          
@@ -56,8 +64,8 @@ working directory/
 ├─ folder_organizer_CLI.py
 ```
 
-Folder structure after:
-```console
+Folder tree after:
+```
 working directory/
 ├─ Organized Folder/
 │  ├─ Folders/
@@ -74,11 +82,16 @@ working directory/
 ├─ folder_organizer_CLI.py
 ```
 
-### <u>Organize by Categories</u>
+## <u>Organize by Categories</u>
 To organize folder content by categories, use the following command:
-> folder_organizer_CLI.py organize cat [output folder name]
 ```console
-Default categories:
+python folder_organizer_CLI.py organize ext '{output folder name}'
+```
+
+>The script can handle multiple nested categories.
+
+```console
+Default categories.json content:
 {
     "programs": ["exe", "msi"],
     "documents": {
@@ -105,13 +118,9 @@ Default categories:
 }
 
 ```
-> You can edit categories from categories.json file.
+### <u>Example of how it works:</u>
 
-> ! multiple nested categories is not working yet :( 
-
-#### <u>Example of how it works:</u>
-
-Folder structure before:
+Folder tree before:
 ```console
 working directory/                      
 ├─ note.txt
@@ -124,7 +133,7 @@ working directory/
 ├─ folder_organizer_CLI.py
 ```
 
-Folder structure after:
+Folder tree after:
 ```console
 working directory/
 ├─ Organized Folder/
@@ -145,7 +154,4 @@ working directory/
 ├─ folder_organizer_CLI.py
 ```
 
-## <u>Optimizations:</u>
-- You can avoid moving folders by changing the default value of <b>include_folders</b> argument in folder_organizer.py methods to False.
-- You can change the files and folders that the script will never move by adding their names to the list in <b>_default_ignore_list</b> method in folder_organizer.py script.
-
+> the script behavior can be optimized as the need by changing some default values in the FolderOrganizer class (folder_organizer.py)
