@@ -54,6 +54,9 @@ python folder_organizer_CLI.py organize ext "<output folder name>"
 ### Example of output:
 ![imgs](/imgs/organize.png)
 
+### Example of output (in case of errors):
+![imgs](/imgs/organize_error.png)
+
 ### <u>Example of how it works:</u>
 Folder tree before:
 ```
