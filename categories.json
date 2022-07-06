@@ -16,9 +16,9 @@
         "audios": ["m4a", "mp3"]
     },
     "programming": {
-        "scripts": ["py", "js", "cpp", "c", "php", "html", "css"],
+        "codes": ["py", "js", "cpp", "c", "php", "html", "css"],
         "db": ["sqlite", "db"],
-        "readme": ["md"]
+        "markdowns": ["md"]
     },
     "zip": ["zip", "rar"]
 }

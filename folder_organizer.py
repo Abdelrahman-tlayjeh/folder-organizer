@@ -1,8 +1,13 @@
-from os import scandir, path, DirEntry, makedirs
+from os import scandir, path, DirEntry, makedirs, rename
 from shutil import move
 from json import load as load_json
 
-
+"""
+TO-DO:
+------
+    - review select_files, rename, and change_extensions
+    - add comments and documentations to these 3
+"""
 class FolderOrganizer:
     def __init__(self) -> None:
         self._categories = self._load_categories()
@@ -140,7 +145,7 @@ class FolderOrganizer:
                         return categories_lst            
         return None
 
-    #========== methods to scan folder content ==========#
+    #========== methods to scan/select folder content ==========#
     def get_stats(self) -> dict:
         """return the counts of each different extension in the folder, as well as the count of fodlers and the unknown files"""
         content = scandir()
@@ -202,15 +207,35 @@ class FolderOrganizer:
             return [item for item in scandir() if item.is_dir()]
         #invalid type
         else:
-            raise ValueError(f"Type should be 'all', 'files', or 'folders'. But '{type}' is given!")
+            raise ValueError(f"Type should be 'all', 'files', or 'folders', but '{type}' is given!")
 
+
+    def select_files(self, by:str, value:'str|list') -> list[DirEntry]:
+        """
+        return a list of all items with given properties
+
+        Args:
+            - by: either 'ext' to select files with specific extension(s) or 'names' to select files with given name(s)
+            - value: can be one string or list of strings
+        """
+        if type(value) is str:
+            value = [value]
+
+        if by == "ext":
+            return [file for file in self.get_content("files") if self._get_file_extension(file) in value]
+        
+        if by == "names":
+            return [file for file in self.get_content("files") if file.name in value]
+        
+        #invalid [by] argument
+        raise ValueError(f"By argument should be 'ext' or 'names', but '{by}' is given!")
 
     #========== Methods to organize folder ==========#
     def organize_by_extensions(self, output_folder_name:str, include_folders:bool=True, dont_touch:list[str]=None) -> tuple:
         """organize the folder by extensions.
         all files with the same extension are placed in the same folder
 
-        params:
+        Args:
             - output_folder_name: string for the name of folder that will contains all organized content
             - include_folders: True to organize folders and place in 'Folders' folder, False to not
             - dont_touch: list of names of files or folders to do not move, by default it will contains the constant self._dont_touch plus the given output_folder_name
@@ -254,7 +279,7 @@ class FolderOrganizer:
         """organize the folder by pre-defined categories (categories.json).
         all files with the same category are placed in the same folder, files with no category will be placed in 'Other' folder.
 
-        params:
+        Args:
             - output_folder_name: string for the name of folder that will contains all organized content
             - include_folders: True to organize folders and place in 'Folders' folder, False to not
             - dont_touch: list of names of files or folders to do not move, by default it will contains the constant self._dont_touch plus the given output_folder_name
@@ -313,3 +338,82 @@ class FolderOrganizer:
             
         #finish
         return (moved, errors)
+
+
+    #========== Modifying folder content ==========#
+    def rename_content(self, new_name_pattern:str, include_folder=True, dont_touch:list=None) -> tuple:
+        """Rename folder content to similar names (as the given name pattern)
+
+        Args:
+            - new_name_pattern: the pattern string. [special characters: []: an index | {}: the old name]
+            - include_folders: True to rename folders as well, False to not
+            - dont_touch: list of names of files or folders to do not rename, by default it will contains the constant self._dont_touch
+
+        return a tuple of two items:
+            - 1: list of tuples. Each tuple contains the old name and the new name
+            - 2: list of errors tuples (if errors occur else empty list), each tuple contains the item name and the error message
+        """
+        if not dont_touch: dont_touch = self._dont_touch
+        content = self.get_content("all" if include_folder else "files") 
+        #if there is more than one item and the pattern is a static string
+        if len(content) > 1 and ("{}" not in new_name_pattern and "[]" not in new_name_pattern):
+            #add an index at the end of name
+            new_name_pattern += "[]"
+
+        renamed = []
+        errors = []
+
+        for index, item in enumerate(content):
+            if item.name in dont_touch:
+                continue
+            
+            extension = path.splitext(item.name)[1]
+            new_name = new_name_pattern.replace("[]", str(index))
+            new_name = new_name.replace("{}", item.name)
+            new_name += extension
+            try:
+                rename(item.path, item.path.replace(item.name, new_name))
+                renamed.append((item.name, new_name))
+            except Exception as e:
+                errors.append(item.name, str(e))
+
+        return (renamed, errors)
+
+    
+    def change_extensions(self, current:str, new:str, dont_touch:list=None) -> tuple:
+        """Change the extension of all files that have [current] extension to the [new] extension
+
+        Args:
+            - current: the current extension
+            - new: the new extension
+            - dont_touch: list of names of files or folders to do not rename, by default it will contains the constant self._dont_touch
+
+        return a tuple of two items:
+            - 1: the count of total changed items (int)
+            - 2: list of errors tuples (if errors occur else empty list), each tuple contains the item name and the error message
+        """
+        if not dont_touch: dont_touch = self._dont_touch
+        #make sure that extensions have '.' at the beginning
+        if current[0] != ".": current = "." + current
+        if new[0] != ".": new = "." + new
+
+        changed = 0
+        errors = []
+
+        #get all files with given extension(s)
+        content = self.select_files(by="ext", value=current)
+        for file in content:
+            if file.name in dont_touch:
+                continue
+            
+            try:
+                #the name with the new extension
+                new_name = path.splitext(file.name)[0] + new
+                rename(file.path, file.path.replace(file.name, new_name))
+                changed += 1
+            except Exception as e:
+                errors.append((file.name, str(e)))
+        
+        return (changed, errors)
+
+

@@ -3,10 +3,12 @@
 <hr>
 
 ### <u>Features:</u>
-- Show the counts of the different content types in the folder. 
+- Show the counts of the different content types in the folder. [link](#show-folder-content-stats)
 - Organize the folder content in 2 different way:
-    - By extensions: set all files with same extension in one folder.
-    - By categories: set all files with same categort in one folder. <i>(check categories.json)</i>
+    - By extensions: set all files with same extension in one folder. [link](#organize-by-extensions)
+    - By categories: set all files with same categort in one folder. <i>(check categories.json)</i> [link](#organize-by-categories)
+- change the names of files and folders to a similar name (by giving a pattern). [link](#rename-content)
+- change the extension of all files with a specific extension. [link](#change-an-extension-to-another)
 <hr>
 
 ### <u>Get started:</u>
@@ -14,26 +16,28 @@
 ```console
 pip3 install -r requirements.txt
 ```
-- set the scripts and the JSON file in the folder that you want to organize <i>(in the same level of content)</i>
-- open the terminal, you can check all commands using one of the following:
+- set the scripts and the json file in the folder that you want to organize <i>(in the same level of content)</i>
+- open the treminal.
+
+ you can check all commands using one of the following:
 ```console
-folder_organizer_CLI.py --help
+python folder_organizer_CLI.py --help
 ```
 or
 ```console
-folder_organizer_CLI.py show-commands
+python folder_organizer_CLI.py show-commands
 ```
-    
+> use 'python3' on linux or mac 
+
 
 <hr>
 
 ## <u>Show Folder content stats:</u>
-To get an idea about the count of different content types in the  folder, run the following command:
+To see the count of different content types (extensions) in the  folder:
 
 ```console
 python folder_organizer_CLI.py show-stats
 ```
-> use 'python3' on linux or mac 
 
 ### Example of output:
 
@@ -41,14 +45,14 @@ python folder_organizer_CLI.py show-stats
 
 
 ## <u>Organize by Extensions</u>
-To organize folder content by extensions, use the following command:
+To organize folder content by extensions:
 ```console
-python folder_organizer_CLI.py organize ext '{output folder name}'
+python folder_organizer_CLI.py organize ext "<output folder name>"
 ```
-> replace {output folder name} by a valid folder name to be the folder that will contain all organized content.
+> replace {output folder name} by a valid folder name to be the folder that will contains all organized content.
 
 ### Example of output:
-![imgs](/imgs/org_ext.png)
+![imgs](/imgs/organize.png)
 
 ### <u>Example of how it works:</u>
 Folder tree before:
@@ -83,14 +87,12 @@ working directory/
 ```
 
 ## <u>Organize by Categories</u>
-To organize folder content by categories, use the following command:
+To organize folder content by categories:
 ```console
-python folder_organizer_CLI.py organize ext '{output folder name}'
+python folder_organizer_CLI.py organize ext "<output folder name>"
 ```
 
->The script can handle multiple nested categories.
-
-```console
+```
 Default categories.json content:
 {
     "programs": ["exe", "msi"],
@@ -118,10 +120,12 @@ Default categories.json content:
 }
 
 ```
+>The script can handle mutliple nested category.
+
 ### <u>Example of how it works:</u>
 
 Folder tree before:
-```console
+```
 working directory/                      
 ├─ note.txt
 ├─ 1m_monkey_image.png                          
@@ -134,7 +138,7 @@ working directory/
 ```
 
 Folder tree after:
-```console
+```
 working directory/
 ├─ Organized Folder/
 │  ├─ Folders/
@@ -153,5 +157,68 @@ working directory/
 ├─ categories.json
 ├─ folder_organizer_CLI.py
 ```
+## <u>Rename content</u>
+To rename all the content of the folder:
+```console
+python folder_organizer_CLI.py rename "<name pattern>"
+```
+    There is two special characters that can be used in the pattern:
+    - []: will be replaced by a unique number (index)
+    - {}: will be replaced by the old name
 
-> the script behavior can be optimized as the need by changing some default values in the FolderOrganizer class (folder_organizer.py)
+### <u>Example of how it works:</u>
+
+Folder tree before:
+```
+working directory/                      
+├─ 10052022.txt
+├─ 12052022.txt                          
+├─ 18052022.txt
+├─ 03062022.txt                          
+├─ 12062022.txt
+```
+using:
+> python folder_organizer_CLI.py rename "note_[]"
+
+Folder tree after:
+```
+working directory/                      
+├─ note_0.txt
+├─ note_1.txt                          
+├─ note_2.txt
+├─ note_3.txt                          
+├─ note_4.txt
+```
+
+## <u>Change an extension to another</u>
+To change one extension to another for all files:
+```console
+python folder_organizer_CLI.py change-extension "<current extension>" "<new extension>"
+```
+
+### <u>Example of how it works:</u>
+
+Folder tree before:
+```
+working directory/                      
+├─ 10052022.jpeg
+├─ 12052022.jpeg                          
+├─ 18052022.jpeg
+├─ 03062022.jpeg                          
+├─ note.txt                          
+├─ 12062022.jpeg
+```
+using:
+> python folder_organizer_CLI.py change-extension ".jpeg" ".png"
+
+Folder tree after:
+```
+working directory/                      
+├─ 10052022.png
+├─ 12052022.png                          
+├─ 18052022.png
+├─ 03062022.png                          
+├─ note.txt                          
+├─ 12062022.png
+```
+> the script behavior can be optimised as the need by changing some default values in the FolderOrganizer class (folder_organizer.py)
