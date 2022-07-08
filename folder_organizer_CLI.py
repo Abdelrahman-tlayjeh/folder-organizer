@@ -3,12 +3,6 @@ from typer import Typer
 from rich.console import Console
 from rich.table import Table
 
-"""
-TO-DO:
-------
-    - create helper method to show errors table [Done]
-    - add comments and documentations to new commands (rename and change extensions) [Done]
-"""
 
 app = Typer()
 console = Console()
