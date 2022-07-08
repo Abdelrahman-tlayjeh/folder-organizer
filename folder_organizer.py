@@ -2,12 +2,7 @@ from os import scandir, path, DirEntry, makedirs, rename
 from shutil import move
 from json import load as load_json
 
-"""
-TO-DO:
-------
-    - review select_files, rename, and change_extensions
-    - add comments and documentations to these 3
-"""
+
 class FolderOrganizer:
     def __init__(self) -> None:
         self._categories = self._load_categories()
