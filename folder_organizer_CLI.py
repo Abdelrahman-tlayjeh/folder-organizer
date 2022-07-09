@@ -12,7 +12,7 @@ organizer = FolderOrganizer()
 COMMANDS = {
     "show-stats": "Display a table that contains general stats of folder content",
     "organize ext <folder name>": "Organize the folder by extensions and set new organized content in a folder with <folder name> name",
-    "organize cat <folder name>": "Organize the folder by categories (you can edit categories from categories.json file) and set new organized content in a folder with (folder name) name",
+    "organize cat <folder name>": "Organize the folder by categories (you can edit categories from categories.json file) and set newly organized content in a folder with (folder name) name",
     "rename <new name pattern>": "Rename all content in the folder.",
     "change-extension <current extension> <new extension>": "Change the extensions of all files with extension = <current extension> to the <new extension>"
 }
@@ -83,10 +83,10 @@ def show_stats():
 def organize(by:str, output_folder_name:str):
     if by == "ext":
         res = organizer.organize_by_extensions(output_folder_name)
-        console.print(generate_rich_syntax("green", f"{res[0]} Sucessfully moved"))
+        console.print(generate_rich_syntax("green", f"{res[0]} Successfully moved"))
     elif by == "cat":
         res = organizer.organize_by_categories(output_folder_name)
-        console.print(generate_rich_syntax("green", f"{res[0]} Sucessfully moved"))
+        console.print(generate_rich_syntax("green", f"{res[0]} Successfully moved"))
     else:
         console.print(generate_rich_syntax("red", "Invalid input! You can organize by extensions 'ext' or categories 'cat'."))
         return
